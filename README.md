@@ -27,6 +27,7 @@ Commands:
   license  Parse a Playready XMR License Response
   migrate  Converts a V2 PRD to V3 (Won't work with reprovisioning)
   pssh     Load a PSSH and extract the KID/s
+  unprovision  Takes a bgroupcert.dat with 4 or more certificates and removes the leaf certificate and exports
 ```
 
 ## Disclaimer
@@ -40,4 +41,4 @@ Commands:
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+[Creative Commons](https://github.com/8c/playready-utils/blob/main/LICENSE)
