@@ -39,4 +39,4 @@ Commands:
 
 ## License
 
-[Creative Commons](https://github.com/8c/playready-utils/blob/main/LICENSE)
+[Creative Commons](https://github.com/8c/playready-utils/blob/master/LICENSE)
