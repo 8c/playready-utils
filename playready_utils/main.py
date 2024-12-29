@@ -167,9 +167,9 @@ def export(prd, output):
         'flags': cert_chain.flags,
         'certs': cert_chain.certs - 1,
         'data': [
-            dict(cert_chain.data[1]),
-            dict(cert_chain.data[2]),
-            dict(cert_chain.data[3])
+            dict(cert_chain.data[len(cert_chain.data) - 3]),
+            dict(cert_chain.data[len(cert_chain.data) - 2]),
+            dict(cert_chain.data[len(cert_chain.data) - 1])
         ]
     }
 
@@ -218,6 +218,50 @@ def license(xmr_data):
         logger.error(f"Failed to load XMR License: {str(e)}")
         return
 
+
+@cli.command("unprovision")
+@cloup.argument('bgroupcert', type=Path, required=True, help="provisioned bgroupcert.dat")
+@cloup.option('--output', '-o', type=Path, required=False, help="Output to store the unprovisioned device")
+def unprovision(bgroupcert, output):
+    """Takes a bgroupcert.dat with 4 or more certificates and removes the leaf certificate and exports."""
+    if not bgroupcert.is_file():
+        logger.error("File does not exist")
+        return
+
+    bgroup = bgroupcert.name.replace(bgroupcert.suffix, "")
+    output = output or bgroupcert.parent
+
+    logger.info(f"Loading file: {bgroup}")
+
+    with open(bgroupcert, "rb") as f:
+        bgroupcert_raw = f.read()
+    cert_chain = CHAIN.parse(bgroupcert_raw)
+
+    if cert_chain.certs <= 3:
+        logger.error("bgroupcert is not provisioned. Exiting")
+        return
+
+    unprovisioned_cert = {
+        'constant': b'CHAI',
+        'version': cert_chain.version,
+        'total_length': cert_chain.total_length - cert_chain.data[0]['total_length'],
+        'flags': cert_chain.flags,
+        'certs': 3,
+        'data': [
+            dict(cert_chain.data[len(cert_chain.data) - 3]),
+            dict(cert_chain.data[len(cert_chain.data) - 2]),
+            dict(cert_chain.data[len(cert_chain.data) - 1])
+        ]
+    }
+
+    logger.info(f"Exporting bgroupcert.dat into {output}\\bgroupcert.dat")
+
+    if not os.path.exists(output):
+        logger.info(f"Created Directory {output}")
+        os.makedirs(output)
+
+    with open(f'{output}/bgroupcert.dat', 'wb') as f:
+        f.write(CHAIN.build(unprovisioned_cert))
 
 if __name__ == "__main__":
     cli()
