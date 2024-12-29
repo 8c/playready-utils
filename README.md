@@ -7,7 +7,7 @@ playready-utils is a CLI of useful tools made to work with the public pyplayread
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install playready-utils.
 
 ```bash
-pip install playready-utils
+pip install git+https://github.com/8c/playready-utils
 ```
 
 ## Usage
