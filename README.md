@@ -15,7 +15,7 @@ pip install playready-utils
 ```
 playready-tools -h
 Usage: playready-utils [OPTIONS] COMMAND [ARGS]...                                                                                                                                                                          
-                                                                                                                                                                                                                 
+                                                                                                             
   Tools built to work with playready
 
 Options:
@@ -24,6 +24,7 @@ Options:
 
 Commands:
   export   Exports a PRD V3 to bgroupcert and zgpriv
+  license  Parse a Playready XMR License Response
   migrate  Converts a V2 PRD to V3 (Won't work with reprovisioning)
   pssh     Load a PSSH and extract the KID/s
 ```
