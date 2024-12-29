@@ -1,3 +1,4 @@
+from playready_utils.license.main import XMRLicense
 from playready_utils.prd import PRD
 from playready_utils.bcert import CHAIN
 from playready_utils.pssh import PSSH
@@ -204,6 +205,21 @@ def pssh(pssh_data):
     except Exception as e:
         logger.error(f"Failed to load PSSH: {str(e)}")
         return
+
+
+
+@cli.command("license")
+@cloup.argument('xmr_data', type=str, required=True, help="XMR data from a License Response as Base64")
+def license(xmr_data):
+    """Parse a Playready XMR License Response"""
+    try:
+        logger.info("Parsing License Response")
+        XMRLicense.parse(xmr_data)
+
+    except Exception as e:
+        logger.error(f"Failed to load XMR License: {str(e)}")
+        return
+
 
 if __name__ == "__main__":
     cli()
