@@ -32,12 +32,10 @@ Commands:
 
 ## Disclaimer
 
-```
 1. This project does not condone piracy or any action against the terms of the DRM systems.
 2. Unauthorized decryption or distribution of copyrighted materials is a violation of applicable laws and intellectual property rights.
 3. The developers, contributors, and maintainers of this program are not responsible for any misuse or illegal activities performed using this software.
 4. By using this program, you agree to comply with all applicable laws and regulations governing digital rights and copyright protections.
-```
 
 ## License
 
