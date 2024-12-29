@@ -7,7 +7,6 @@ from pathlib import Path
 
 import collections
 import coloredlogs
-import verboselogs
 import logging
 import cloup
 import os
@@ -46,7 +45,6 @@ def cli(debug):
         ],
     )
 
-    verboselogs.install()
     coloredlogs.install(
         level=logging.DEBUG if debug else logging.INFO,
         fmt=LOG_FORMAT_CLI,

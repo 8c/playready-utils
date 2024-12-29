@@ -1,9 +1,11 @@
 from setuptools import setup, find_packages
+from playready_utils import __version__
 
 setup(
     name='playready_utils',
-    version='0.1',
-    description='Tools built to work with pyplayready',
+    version=__version__,
+    author="8c",
+    description='Tools built to work with playready and pyplayready',
     packages=find_packages(include=['playready_utils', 'playready_utils.*']),
     package_data={
     },
@@ -13,5 +15,7 @@ setup(
     include_package_data=True,
     install_requires=[
         "cloup",
+        'construct==2.8.8',
+        'coloredlogs',
     ],
 )
