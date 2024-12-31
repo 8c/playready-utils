@@ -8,6 +8,7 @@ setup(
     description='Tools built to work with playready and pyplayready',
     packages=find_packages(include=['playready_utils', 'playready_utils.*']),
     package_data={
+        'pyplayready': [ "license/*"],
     },
     entry_points={
         'console_scripts': ['playready-utils=playready_utils.main:cli'],

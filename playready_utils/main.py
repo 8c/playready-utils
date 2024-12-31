@@ -68,6 +68,23 @@ def cli(debug):
     logger = logging.getLogger("playready-utils")
     logger.info("Tools built to work with playready.")
 
+@cli.command("load")
+@cloup.argument('prd', type=Path, required=True, help="pyplayready PRD")
+def load(prd):
+    if not prd.is_file():
+        logger.error("File does not exist")
+        return
+
+    prd_name = prd.name.replace(prd.suffix, "")
+
+    logger.info(f"Loading file: {prd_name}")
+
+    with open(prd, "rb") as f:
+        prd_raw = f.read()
+    data = PRD.parse(prd_raw)
+
+    print(data)
+
 @cli.command("migrate")
 @cloup.argument('prd', type=Path, required=True, help="pyplayready PRD")
 @cloup.option('--output', '-o', type=Path, required=False, help="Output to store the PRD")
