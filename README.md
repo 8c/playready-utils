@@ -7,15 +7,15 @@ playready-utils is a CLI of useful tools made to work with the public pyplayread
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install playready-utils.
 
 ```bash
-pip install git+https://github.com/8c/playready-utils
+pip install playready-utils
 ```
 
 ## Usage
 
 ```
 playready-tools -h
-Usage: playready-utils [OPTIONS] COMMAND [ARGS]...                                                                                                                                                                          
-                                                                                                             
+Usage: playready-utils [OPTIONS] COMMAND [ARGS]...
+
   Tools built to work with playready
 
 Options:
@@ -23,11 +23,12 @@ Options:
   -h, --help  Show this message and exit.
 
 Commands:
-  export   Exports a PRD V3 to bgroupcert and zgpriv
-  license  Parse a Playready XMR License Response
-  migrate  Converts a V2 PRD to V3 (Won't work with reprovisioning)
-  pssh     Load a PSSH and extract the KID/s
-  unprovision  Takes a bgroupcert.dat with 4 or more certificates and removes the leaf certificate and exports
+  export       Exports a PRD V3 to bgroupcert and zgpriv
+  license      Parse a Playready XMR License Response
+  load
+  migrate      Converts a V2 PRD to V3 (Won't work with reprovisioning)
+  pssh         Load a PSSH and extract the KID/s
+  unprovision  Takes a bgroupcert.dat with 4 or more certificates and removes the leaf certificate and exports.
 ```
 
 ## Disclaimer
