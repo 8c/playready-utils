@@ -1,0 +1,40 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "playready_utils"
+version = "0.3.3"  # Replace with your __version__ if dynamically managed
+description = "Tools built to work with PlayReady and pyplayready"
+authors = ["8c"]
+license = "CC BY-NC-ND 4.0"  # Replace with your project's license
+readme = "README.md"
+repository = "https://github.com/your-repo-url/playready_utils"  # Update with the actual URL
+keywords = ["playready", "tools", "pyplayready"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+include = [
+    { path = "README.md", format = "sdist" },
+    { path = "LICENSE", format = "sdist" },
+]
+
+[tool.poetry.urls]
+"Issues" = "https://github.com/8c/playready-utils/issues"  # Update with actual URL
+
+[tool.poetry.dependencies]
+python = ">=3.8,<4.0"
+cloup = ">=0.14.1"
+construct = "2.8.8"
+coloredlogs = "^15.0.1"
+
+[tool.poetry.scripts]
+playready-utils = "playready_utils.main:cli"
