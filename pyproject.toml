@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "playready_utils"
-version = "0.3.4"  
+version = "0.3.5"
 description = "Tools built to work with PlayReady and pyplayready"
 authors = ["8c"]
 license = "CC BY-NC-ND 4.0"

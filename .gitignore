@@ -181,3 +181,8 @@ scalable/43.xml
 scalable/40.xml
 real.xml
 test.py
+/.idea/.gitignore
+/.idea/modules.xml
+/.idea/playready-utils.iml
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/vcs.xml

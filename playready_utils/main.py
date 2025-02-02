@@ -16,9 +16,8 @@ try:
     collections.Sequence
 except AttributeError:
     import collections.abc
+
     collections.Sequence = collections.abc.Sequence
-
-
 
 LOG_FORMAT_CLI = "{asctime} - {levelname} - {name} - {message}"
 LOG_FORMAT_FILE = "{asctime} [{levelname}] {name}: {message}"
@@ -26,12 +25,12 @@ LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 LOG_STYLE = "{"
 
 
-@cloup.group(invoke_without_command=True,         
-    context_settings={
-        "help_option_names": ["-h", "--help"],
-        "max_content_width": 116,  # max PEP8 line-width, -4 to adjust for initial indent
-    },
-)
+@cloup.group(invoke_without_command=True,
+             context_settings={
+                 "help_option_names": ["-h", "--help"],
+                 "max_content_width": 116,  # max PEP8 line-width, -4 to adjust for initial indent
+             },
+             )
 @cloup.option("--debug", type=bool, is_flag=True, default=False, help="Sets logging to debug")
 def cli(debug):
     """Tools built to work with playready"""
@@ -68,6 +67,7 @@ def cli(debug):
     logger = logging.getLogger("playready-utils")
     logger.info("Tools built to work with playready.")
 
+
 @cli.command("load")
 @cloup.argument('prd', type=Path, required=True, help="pyplayready PRD")
 def load(prd):
@@ -84,6 +84,7 @@ def load(prd):
     data = PRD.parse(prd_raw)
 
     print(data)
+
 
 @cli.command("migrate")
 @cloup.argument('prd', type=Path, required=True, help="pyplayready PRD")
@@ -126,7 +127,7 @@ def migrate(prd, output):
     logger.info("Created V3 PRD")
 
     logger.info(f"Storing PRD in {output}\\{prd_name}_v3.prd")
-    
+
     if not os.path.exists(output):
         logger.info(f"Created Directory {output}")
         os.makedirs(output)
@@ -205,6 +206,59 @@ def export(prd, output):
         f.write(zgpriv[:32])
 
 
+@cli.command("downgrade")
+@cloup.argument('prd', type=Path, required=True, help="pyplayready PRD")
+@cloup.option('--output', '-o', type=Path, required=False, help="Output to store the PRD")
+def downgrade(prd, output):
+    """Downgrades a V3 PRD to V2"""
+    if not prd.is_file():
+        logger.error("File does not exist")
+        return
+
+    prd_name = prd.name.replace(prd.suffix, "")
+    output = output or prd.parent
+
+    logger.info(f"Loading file: {prd_name}")
+
+    with open(prd, "rb") as f:
+        prd_raw = f.read()
+
+    data = PRD.parse(prd_raw)
+
+    logger.info("Attempting to Downgrade PRD")
+
+    if data.version != 3:
+        logger.error("PRD is not V3. Exiting")
+        return
+
+    new_prd = PRD.build(
+        {
+            "constant": b"PRD",
+            "version": 2,
+            "prd": {
+                "group_certificate_length": data.prd.group_certificate_length,
+                "group_certificate": data.prd.group_certificate,
+                "encryption_key": data.prd.encryption_key,
+                "signing_key": data.prd.signing_key
+
+            }
+        }
+    )
+
+    logger.info("Created V2 PRD")
+
+    logger.info(f"Storing PRD in {output}\\{prd_name}_v2.prd")
+
+    if not os.path.exists(output):
+        logger.info(f"Created Directory {output}")
+        os.makedirs(output)
+
+    with open(f'{output}/{prd_name}_v2.prd', "wb") as f:
+        f.write(new_prd)
+
+    logger.info("Stored successfully")
+
+
 @cli.command("pssh")
 @cloup.argument('pssh_data', type=str, required=True, help="Base64 PSSH")
 def pssh(pssh_data):
@@ -220,7 +274,6 @@ def pssh(pssh_data):
     except Exception as e:
         logger.error(f"Failed to load PSSH: {str(e)}")
         return
-
 
 
 @cli.command("license")
@@ -279,6 +332,7 @@ def unprovision(bgroupcert, output):
 
     with open(f'{output}/bgroupcert.dat', 'wb') as f:
         f.write(CHAIN.build(unprovisioned_cert))
+
 
 if __name__ == "__main__":
     cli()
